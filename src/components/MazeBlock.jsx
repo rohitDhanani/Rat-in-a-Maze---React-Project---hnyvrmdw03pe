@@ -24,8 +24,8 @@ export const MazeBlock = (props) => {
     }
     // console.log(blocks);
   return (
-    <>
+    <div className='maze-area'>
         {blocks}
-    </>
+    </div>
   )
 }

@@ -13,16 +13,10 @@ const Results = (props) => {
         let numberOfPath=[];
         
         checkPath(0,0,mat,resMat,numberOfPath);
-        // for(let i=0;i<mat.length;i++){
-        //     for(let j=0;j<mat.length;j++){
-        //         if(mat[i][j]===0){
-                    
-        //             checkPath(i,j,mat,resMat)
-        //         }
-        //     }
-        // }
+       
         // console.log(resMat);
-        console.log(numberOfPath);
+        // console.log(numberOfPath);
+        return numberOfPath;
 
 
     }
@@ -30,7 +24,7 @@ const Results = (props) => {
     
 
     const checkPath=(i,j,mat,resMat,numberOfPath)=>{
-        resMat[i][j]=1;
+        resMat[i][j]=2;
         if(i==3 && j==3){
             // console.log(JSON.parse(JSON.stringify(resMat)));
             // JSON.parse(JSON.stringify(resMat))
@@ -49,7 +43,7 @@ const Results = (props) => {
 
         if(j-1>=0 && resMat[i][j-1]===0){
             if(mat[i][j-1]==0){
-                checkPath(i,j-1,mat,resMat)
+                checkPath(i,j-1,mat,resMat,numberOfPath)
                 resMat[i][j-1]=0;
             }
         }
@@ -70,16 +64,80 @@ const Results = (props) => {
                 resMat[i+1][j]=0;
             }
         }
-        // resMat[i][j]=0;
+        
         
 
     }
-    calculatePath();
-    // console.log(resMat);
+    let paths=calculatePath();
+    console.log(paths);
+
+    const addTwoMat=(mat1,mat2)=>{
+        let finalres=createMatrix();
+        for(let i=0;i<mat1.length;i++){
+            for(let j=0;j<mat1.length;j++){
+                finalres[i][j]=mat1[i][j]+mat2[i][j];
+            }
+        }
+        return finalres;
+    }
+    
+
+    const displayEachPathResult=(paths)=>{
+        let blocks=[];
+        let mat=addTwoMat(paths,props.matrix);
+        
+        for(let i=0;i<mat.length;i++){
+            for(let j=0;j<mat.length;j++){
+                if(mat[i][j]===1){
+                    let style={
+                        top:i*25+"%",
+                        left:j*25+"%"
+                    }
+                    blocks.push(<div key={`${i}${j}`} className="maze-block" style={style} ></div>)
+                }else if(mat[i][j]===2){
+                    let style={
+                        top:i*25+"%",
+                        left:j*25+"%",
+                        backgroundColor:"green",
+                        border:"2px solid black"
+                    }
+                    blocks.push(<div key={`${i}${j}`} className="maze-block" style={style} ></div>)
+                }else{
+                    let style={
+                        top:i*25+"%",
+                        left:j*25+"%",
+                        backgroundColor:"white",
+                        border:"2px solid black"
+                    }
+                    blocks.push(<div key={`${i}${j}`} className="maze-block" style={style} ></div>)
+                }
+            }
+        }
+        return blocks;
+    }
+    const listOfResult = (paths)=>{
+        let lr=[];
+        for(let el of paths){
+            let res=displayEachPathResult(el);
+            lr.push(res);
+        }
+        return lr;
+
+    }
+    
+    let displayListOfResults=listOfResult(paths)
     
   return (
-    <div>
+    <div >
+      {/* {respa} */}
+      <div className='resultList'>
+
+            {displayListOfResults.map((el)=>{
+                return <div className='result-area'>{el}</div>
+                
+            })}
       
+        </div>
     </div>
   )
 }
