@@ -1,4 +1,6 @@
 import React from 'react'
+import rat from './rat.png'
+import cheese from "./cheese.png"
 
 const Results = (props) => {
     const createMatrix=()=>{
@@ -69,7 +71,7 @@ const Results = (props) => {
 
     }
     let paths=calculatePath();
-    console.log(paths);
+    // console.log(paths);
 
     const addTwoMat=(mat1,mat2)=>{
         let finalres=createMatrix();
@@ -113,6 +115,20 @@ const Results = (props) => {
                 }
             }
         }
+        let stylefirst={
+            top:0+'%',
+            left:0+'%',
+            backgroundColor:"white",
+            border:"2px solid black"
+        }
+        let stylelast={
+            top:75+'%',
+            left:75+'%',
+            backgroundColor:"white",
+            border:"2px solid black"
+        }
+        blocks[0]=<div key={`00`} className="maze-block" style={stylefirst} ><img style={{height:'100%',width:'100%'}} src={rat} alt="" /></div>
+        blocks[blocks.length-1]=<div key={`006`} className="maze-block" style={stylelast} ><img style={{height:'100%',width:'100%'}} src={cheese} alt="" /></div>
         return blocks;
     }
     const listOfResult = (paths)=>{
@@ -130,10 +146,11 @@ const Results = (props) => {
   return (
     <div >
       {/* {respa} */}
+      <p style={{textAlign:"center"}}>Total paths={displayListOfResults.length}</p>
       <div className='resultList'>
 
-            {displayListOfResults.map((el)=>{
-                return <div className='result-area'>{el}</div>
+            {displayListOfResults.map((el,i)=>{
+                return <div key={i} className='result-area'>{el}</div>
                 
             })}
       

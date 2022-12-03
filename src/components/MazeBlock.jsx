@@ -1,4 +1,6 @@
 import React from 'react'
+import rat from './rat.png'
+import cheese from "./cheese.png"
 
 export const MazeBlock = (props) => {
     let blocks=[];
@@ -22,6 +24,22 @@ export const MazeBlock = (props) => {
             }
         }
     }
+    let stylefirst={
+        top:0+'%',
+        left:0+'%',
+        backgroundColor:"yellow",
+        border:"2px solid black"
+    }
+    let stylelast={
+        top:75+'%',
+        left:75+'%',
+        backgroundColor:"blue",
+        border:"2px solid black"
+    }
+    blocks[0]=<div key={`00`} className="maze-block" style={stylefirst} ><img style={{height:'100%',width:'100%'}} src={rat} alt="" /></div>
+    blocks[blocks.length-1]=<div key={`006`} className="maze-block" style={stylelast} ><img style={{height:'100%',width:'100%'}} src={cheese} alt="" /></div>
+    
+    
     // console.log(blocks);
   return (
     <div className='maze-area'>

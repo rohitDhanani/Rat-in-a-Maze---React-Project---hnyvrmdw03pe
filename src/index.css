@@ -1,10 +1,14 @@
+body{
+  background-color: rgb(242, 135, 59);
+}
+
 .maze-area{
   
   position: relative;
   margin: 50px auto;
-  width: 600px;
-  height: 600px;
-  border: 2px solid black;
+  width: 500px;
+  height: 500px;
+  /* border: 2px solid black; */
 
 }
 
@@ -21,14 +25,30 @@
   margin: 10px ;
   width: 150px;
   height: 150px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
 
 }
 
 .maze-block{
   position: absolute;
-  height: 24%;
-  width: 24%;
+  height: 25%;
+  width: 25%;
   background-color: red;
-  border: 2px solid white;
+  border: 2px solid black;
+}
+
+.centerItem{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+}
+
+.btn{
+  background-color: rgb(31, 177, 31);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
 }
