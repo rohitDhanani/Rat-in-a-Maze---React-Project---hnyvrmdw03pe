@@ -5,7 +5,7 @@ body{
 .maze-area{
   
   position: relative;
-  margin: 50px auto;
+  margin: 10px auto;
   width: 500px;
   height: 500px;
   /* border: 2px solid black; */

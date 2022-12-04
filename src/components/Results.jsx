@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import rat from './rat.png'
 import cheese from "./cheese.png"
 
 const Results = (props) => {
+    
+
+    const resultRef=useRef();
+    useEffect(()=>{
+        console.log(resultRef.current);
+        resultRef.current.scrollIntoView({behaviour:'smooth'})
+    },[])
     const createMatrix=()=>{
         let rows=4;
         let col=4;
@@ -14,11 +21,10 @@ const Results = (props) => {
         let resMat=createMatrix();
         let numberOfPath=[];
         
-        // checkPath(0,0,mat,resMat,numberOfPath);
-        checkPath(props.ratRow,props.ratColumn,mat,resMat,numberOfPath);
+        
+        checkPath(props.ratRow,props.ratColumn,mat,resMat,numberOfPath,props.cheeseRow,props.cheeseColumn);
        
-        // console.log(resMat);
-        // console.log(numberOfPath);
+        
         return numberOfPath;
 
 
@@ -26,18 +32,17 @@ const Results = (props) => {
     
     
 
-    const checkPath=(i,j,mat,resMat,numberOfPath)=>{
+    const checkPath=(i,j,mat,resMat,numberOfPath,endRow,endColumn)=>{
         resMat[i][j]=2;
-        if(i==3 && j==3){
-            // console.log(JSON.parse(JSON.stringify(resMat)));
-            // JSON.parse(JSON.stringify(resMat))
+        if(i==endRow && j==endColumn){
+            
             numberOfPath.push(JSON.parse(JSON.stringify(resMat)));
             return;
         }
         // check right
         if(j+1<mat.length && resMat[i][j+1]===0){
             if(mat[i][j+1]==0){
-                checkPath(i,j+1,mat,resMat,numberOfPath)
+                checkPath(i,j+1,mat,resMat,numberOfPath,endRow,endColumn)
                 resMat[i][j+1]=0;
             }
         }
@@ -46,7 +51,7 @@ const Results = (props) => {
 
         if(j-1>=0 && resMat[i][j-1]===0){
             if(mat[i][j-1]==0){
-                checkPath(i,j-1,mat,resMat,numberOfPath)
+                checkPath(i,j-1,mat,resMat,numberOfPath,endRow,endColumn)
                 resMat[i][j-1]=0;
             }
         }
@@ -55,7 +60,7 @@ const Results = (props) => {
 
         if(i-1>=0 && resMat[i-1][j]===0){
             if(mat[i-1][j]==0){
-                checkPath(i-1,j,mat,resMat,numberOfPath)
+                checkPath(i-1,j,mat,resMat,numberOfPath,endRow,endColumn)
                 resMat[i-1][j]=0;
             }
         }
@@ -63,7 +68,7 @@ const Results = (props) => {
         // check down
         if(i+1<mat.length && resMat[i+1][j]===0){
             if(mat[i+1][j]==0){
-                checkPath(i+1,j,mat,resMat,numberOfPath)
+                checkPath(i+1,j,mat,resMat,numberOfPath,endRow,endColumn)
                 resMat[i+1][j]=0;
             }
         }
@@ -72,7 +77,7 @@ const Results = (props) => {
 
     }
     let paths=calculatePath();
-    // console.log(paths);
+    
 
     const addTwoMat=(mat1,mat2)=>{
         let finalres=createMatrix();
@@ -100,6 +105,17 @@ const Results = (props) => {
                         border:"2px solid black"
                     }
                     blocks.push(<div key={`rat`} className="maze-block" style={stylefirst} ><img style={{height:'100%',width:'100%'}} src={rat} alt="" /></div>)
+                    continue;
+                }
+
+                if(i==props.cheeseRow && j==props.cheeseColumn){
+                    let stylelast={
+                        top:props.cheeseRow*25+'%',
+                        left:props.cheeseColumn*25+'%',
+                        backgroundColor:"blue",
+                        border:"2px solid black"
+                    }
+                    blocks.push(<div key={`cheese`} className="maze-block" style={stylelast} ><img style={{height:'100%',width:'100%'}} src={cheese} alt="" /></div>)
                     continue;
                 }
 
@@ -133,20 +149,7 @@ const Results = (props) => {
                 }
             }
         }
-        // let stylefirst={
-        //     top:0+'%',
-        //     left:0+'%',
-        //     backgroundColor:"white",
-        //     border:"2px solid black"
-        // }
-        let stylelast={
-            top:75+'%',
-            left:75+'%',
-            backgroundColor:"white",
-            border:"2px solid black"
-        }
-        // blocks[0]=<div key={`00`} className="maze-block" style={stylefirst} ><img style={{height:'100%',width:'100%'}} src={rat} alt="" /></div>
-        blocks[blocks.length-1]=<div key={`006`} className="maze-block" style={stylelast} ><img style={{height:'100%',width:'100%'}} src={cheese} alt="" /></div>
+
         return blocks;
     }
     const listOfResult = (paths)=>{
@@ -162,10 +165,10 @@ const Results = (props) => {
     let displayListOfResults=listOfResult(paths)
     
   return (
-    <div >
-      {/* {respa} */}
+    <div  >
+      
       <p style={{textAlign:"center"}}>Total paths={displayListOfResults.length}</p>
-      <div className='resultList'>
+      <div ref={resultRef} className='resultList'>
 
             {displayListOfResults.map((el,i)=>{
                 return <div key={i} className='result-area'>{el}</div>
